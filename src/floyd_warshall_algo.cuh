@@ -26,7 +26,7 @@ typedef std::pair<std::pair<int,int>,int> Piii;
 //forward function declarations
 void _showPath(int start,int end,const std::vector<Piii> &path,const int *D,const int N);
 bool _getPath(int curEdge, int nxtEdge,std::vector<Piii> &path,const int *D, const int *Dpath,const int N);
-void _get_full_paths(const int *D, const int *Dpath, const int N);
+void _get_full_paths(const int *D, const int *Dpath, const int N, int * roots);
 
 //CUDA GPU kernel/functions forward declaration
 __global__ void _Wake_GPU(int reps);

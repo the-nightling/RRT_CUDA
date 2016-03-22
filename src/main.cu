@@ -28,6 +28,7 @@ int main(void) {
 	init_adj_matrix_kernel<<<NUM_BLOCKS, NUM_THREADS>>>(device_adjacency_matrix);
 
 	int *D_Gpath=(int *)malloc(NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int));
+	int *roots = (int *)malloc(30 * sizeof(int));
 
 	for(int i=0;i<RANDOM_GSIZE*RANDOM_GSIZE;i++){
 			D_Gpath[i]=-1;//set to all negative ones for use in path construction
@@ -58,8 +59,11 @@ int main(void) {
 	//call host function which will copy all info to device and run CUDA kernels
 		_GPU_Floyd(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE);
 
-		_get_full_paths(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE);//find out exact step-by-step shortest paths between vertices(if such a path exists)
+		_get_full_paths(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE, roots);//find out exact step-by-step shortest paths between vertices(if such a path exists)
 
+		for(int i=0; i < 30;i++){
+			printf("%d\n",roots[i]);
+		}
 	/*
 	 printf("Bin:    Count: \n");
 	 for (int i = 0; i < N * NUM_RESULTS_PER_THREAD * NUM_THREADS; i++)

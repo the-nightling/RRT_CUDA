@@ -22,7 +22,7 @@ bool _getPath(int curEdge, int nxtEdge,vector<Piii> &path,const int *D, const in
 	}
 }
 
-void _get_full_paths(const int *D, const int *Dpath, const int N){
+void _get_full_paths(const int *D, const int *Dpath, const int N, int *roots){
 	int start_vertex=-1,end_vertex=-1;
 	vector<Piii> path;
 
@@ -36,6 +36,10 @@ void _get_full_paths(const int *D, const int *Dpath, const int N){
 
 	}else{
 		cout<<"\nThere does not exist valid a path between "<<start_vertex<<" , and "<<end_vertex<<'\n';
+	}
+
+	for(int i=0;i<path.size();++i){
+			roots[i] = path[i].first.first;
 	}
 	//*/
 
