@@ -61,7 +61,7 @@ __device__ void pendulumDynamics(double* x, double u, double* xd);
 ////////////////////////////////////////////
 __global__ void RNG_setup_kernel(curandState *state);
 __global__ void init_adj_matrix_kernel(int * adjacency_matrix);
-__global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix, double * result2);
+__global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix, double * path_solutions, double * control_solutions);
 
 
 

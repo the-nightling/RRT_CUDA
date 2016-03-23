@@ -14,12 +14,13 @@ using namespace std;
 // MAIN
 ////////////////////////////////////////////
 int main(void) {
-//*
+	//*
 	curandState *device_state;
 	cudaMalloc(&device_state, NUM_THREADS * NUM_BLOCKS * sizeof(curandState)); // allocate device memory to store RNG states
 
 	int *device_adjacency_matrix, *host_adjacency_matrix;	// pointers to results of computation
-	double *device_result2, *host_paths;
+	double *device_path_solns, *host_path_solns;
+	double *device_control_solns, *host_control_solns;
 
 	host_adjacency_matrix = (int *) malloc(
 			NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int));// allocate host memory to store results
@@ -27,43 +28,55 @@ int main(void) {
 			NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int));// allocate device memory to store results
 	init_adj_matrix_kernel<<<NUM_BLOCKS, NUM_THREADS>>>(device_adjacency_matrix);
 
-	int *D_Gpath=(int *)malloc(NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int));
-	int *roots = (int *)malloc(30 * sizeof(int));
-
-	for(int i=0;i<RANDOM_GSIZE*RANDOM_GSIZE;i++){
-			D_Gpath[i]=-1;//set to all negative ones for use in path construction
-		}
-
-	host_paths = (double *) malloc(
+	host_path_solns = (double *) malloc(
 			NUM_RESULTS_PER_THREAD_2 * NUM_THREADS * NUM_BLOCKS * sizeof(double));// allocate host memory to store results
-	cudaMalloc(&device_result2,
+	cudaMalloc(&device_path_solns,
 			NUM_RESULTS_PER_THREAD_2 * NUM_THREADS * NUM_BLOCKS * sizeof(double));// allocate device memory to store results
-	cudaMemset(device_result2, 0,
+	cudaMemset(device_path_solns, 0,
 			NUM_RESULTS_PER_THREAD_2 * NUM_THREADS * NUM_BLOCKS * sizeof(double));// initialize device results array to 0
+
+	host_control_solns = (double *) malloc(
+			NUM_OF_GOAL_STATES* LENGTH_OF_SOLN_PATH * NUM_THREADS * NUM_BLOCKS * sizeof(double));// allocate host memory to store results
+	cudaMalloc(&device_control_solns,
+			NUM_OF_GOAL_STATES* LENGTH_OF_SOLN_PATH * NUM_THREADS * NUM_BLOCKS * sizeof(double));// allocate device memory to store results
+	cudaMemset(device_control_solns, 0,
+			NUM_OF_GOAL_STATES* LENGTH_OF_SOLN_PATH * NUM_THREADS * NUM_BLOCKS * sizeof(double));// initialize device results array to 0
 
 	RNG_setup_kernel<<<NUM_BLOCKS, NUM_THREADS>>>(device_state);	// run GPU to initialize RNG
 
 	RRT_kernel<<<NUM_BLOCKS, NUM_THREADS>>>(device_state, device_adjacency_matrix,
-			device_result2);	// run main GPU algorithm
+			device_path_solns, device_control_solns);	// run main GPU algorithm
 
 	cudaMemcpy(host_adjacency_matrix, device_adjacency_matrix,
 			NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int),	// copy results from device to host
 			cudaMemcpyDeviceToHost);
 
-	cudaMemcpy(host_paths, device_result2,
+	cudaMemcpy(host_path_solns, device_path_solns,
 			NUM_RESULTS_PER_THREAD_2 * NUM_THREADS * NUM_BLOCKS * sizeof(double),// copy results from device to host
 			cudaMemcpyDeviceToHost);
-//*/
-	// output results
+
+	cudaMemcpy(host_control_solns, device_control_solns,
+			NUM_OF_GOAL_STATES* LENGTH_OF_SOLN_PATH * NUM_THREADS * NUM_BLOCKS * sizeof(double),// copy results from device to host
+			cudaMemcpyDeviceToHost);
+
+
+	int *D_Gpath=(int *)malloc(NUM_RESULTS_PER_THREAD * NUM_THREADS * NUM_BLOCKS * sizeof(int));
+	int *roots = (int *)calloc(30, sizeof(int));
+
+	for(int i=0;i<RANDOM_GSIZE*RANDOM_GSIZE;i++){
+		D_Gpath[i]=-1;//set to all negative ones for use in path construction
+	}
 
 	//call host function which will copy all info to device and run CUDA kernels
-		_GPU_Floyd(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE);
+	_GPU_Floyd(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE);
 
-		_get_full_paths(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE, roots);//find out exact step-by-step shortest paths between vertices(if such a path exists)
+	_get_full_paths(host_adjacency_matrix,D_Gpath,RANDOM_GSIZE, roots);//find out exact step-by-step shortest paths between vertices(if such a path exists)
 
-		for(int i=0; i < 30;i++){
-			printf("%d\n",roots[i]);
-		}
+	//*/
+	// output results
+	for(int i=0; i < 30;i++){
+		printf("%d\n",roots[i]);
+	}
 	/*
 	 printf("Bin:    Count: \n");
 	 for (int i = 0; i < N * NUM_RESULTS_PER_THREAD * NUM_THREADS; i++)
@@ -96,17 +109,17 @@ int main(void) {
 		{
 			goal_index = (roots_on_path[i]*2*8*20) - (j*2*20) - 1;
 			root_index = goal_index - 2;
-			individual_tree_roots[i][0] = host_paths[root_index-1];
-			individual_tree_roots[i][1] = host_paths[root_index];
+			individual_tree_roots[i][0] = host_path_solns[root_index-1];
+			individual_tree_roots[i][1] = host_path_solns[root_index];
 
-			individual_tree_goals[j][0] = host_paths[goal_index-1];
-			individual_tree_goals[j][1] = host_paths[goal_index];
+			individual_tree_goals[j][0] = host_path_solns[goal_index-1];
+			individual_tree_goals[j][1] = host_path_solns[goal_index];
 
 			/*
-			printf("%f\n", host_paths[root_index-1]);
-			printf("%f\n", host_paths[root_index]);
-			printf("%f\n", host_paths[goal_index-1]);
-			printf("%f\n\n", host_paths[goal_index]);
+			printf("%f\n", host_path_solns[root_index-1]);
+			printf("%f\n", host_path_solns[root_index]);
+			printf("%f\n", host_path_solns[goal_index-1]);
+			printf("%f\n\n", host_path_solns[goal_index]);
 			//*
 		}
 	}
@@ -126,6 +139,7 @@ int main(void) {
 	//*
 	FILE *dataFile = fopen("data.txt", "w");
 	FILE *dataFile2 = fopen("data2.txt", "w");
+	FILE *dataFile3 = fopen("data3.txt", "w");
 
 	for (int i = 0; i < NUM_THREADS * NUM_BLOCKS; i++) {
 		for (int j = 0; j < NUM_RESULTS_PER_THREAD; j++) {
@@ -135,15 +149,24 @@ int main(void) {
 	}
 
 	for (int i = 0; i < NUM_RESULTS_PER_THREAD_2 * NUM_THREADS * NUM_BLOCKS; i++)
-		fprintf(dataFile2, "%f,\n", host_paths[i]);
+		fprintf(dataFile2, "%f,\n", host_path_solns[i]);
+
+	for (int i = 0; i < NUM_OF_GOAL_STATES* LENGTH_OF_SOLN_PATH * NUM_THREADS * NUM_BLOCKS; i++)
+		fprintf(dataFile3, "%f,\n", host_control_solns[i]);
 
 	fclose(dataFile);
 	fclose(dataFile2);
+	fclose(dataFile3);
 	//*/
 
-	free(host_paths);
+	free(host_path_solns);
+	free(host_control_solns);
 	free(host_adjacency_matrix);
 	free(D_Gpath);
+	cudaFree(device_path_solns);
+	cudaFree(device_control_solns);
+	cudaFree(device_adjacency_matrix);
+	cudaFree(device_state);
 
 	return 0;
 }

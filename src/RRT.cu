@@ -42,7 +42,7 @@ __global__ void init_adj_matrix_kernel(int * adjacency_matrix){
  * Main kernel; Contains RRT algorithm
  */
 __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
-		double * result2) {
+		double * path_solutions, double * control_solutions) {
 
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;		// thread id
 
@@ -97,13 +97,13 @@ __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
 
 	int parent_state_index[NUM_OF_ITERATIONS]; // stores index of parent state for each state in graph RRT_tree
 	int control_action_index[NUM_OF_ITERATIONS]; // stores index of control actions in discrete_control_torques (each state will use a control action value in discrete_control_torques)
-	double u_path[LENGTH_OF_SOLN_PATH]; // stores sequence of control actions (solution to problem)
+	double u_path[8][LENGTH_OF_SOLN_PATH]; // stores sequence of control actions (solution to problem)
 	double x_path[8][LENGTH_OF_SOLN_PATH][2];
 	for (y = 0; y < 8; y++) {
 		for (x = 0; x < LENGTH_OF_SOLN_PATH; x++) {	// initialize tree to initial state
 			x_path[y][x][0] = 0;
 			x_path[y][x][1] = 0;
-			u_path[x] = 0;
+			u_path[y][x] = 0;
 		}
 	}
 	int state_index = 0;    // stores sequence of states joining initial to goal state
@@ -166,12 +166,12 @@ __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
 
 					not_found[goal_index] = 0;
 					state_index = iteration;
-					int index = 0;
+					int length_of_soln = 0;
 					while (state_index != 0) {
-						u_path[index] = discrete_control_torques[control_action_index[state_index]];
-						x_path[goal_index][index][0] = RRT_tree[state_index][0];
-						x_path[goal_index][index][1] = RRT_tree[state_index][1];
-						index++;
+						u_path[goal_index][length_of_soln] = discrete_control_torques[control_action_index[state_index]];
+						x_path[goal_index][length_of_soln][0] = RRT_tree[state_index][0];
+						x_path[goal_index][length_of_soln][1] = RRT_tree[state_index][1];
+						length_of_soln++;
 
 						state_index = parent_state_index[state_index];
 					}
@@ -232,15 +232,16 @@ __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
 	int num_of_goals = 8;
 	for (j = 0; j < num_of_goals; j++) {
 		for (i = 0; i < LENGTH_OF_SOLN_PATH; i++) {
-			result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = x_path[j][i][0];
-			result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = x_path[j][i][1];
+			path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = x_path[j][i][0];
+			path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = x_path[j][i][1];
+			control_solutions[idx * num_of_goals * LENGTH_OF_SOLN_PATH + j * LENGTH_OF_SOLN_PATH + i] = u_path[j][i];
 			if (not_found[j] == 0) {
 				if (i == LENGTH_OF_SOLN_PATH - 2) {
-					result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = start_state[0];
-					result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = start_state[1];
+					path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = start_state[0];
+					path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = start_state[1];
 				} else if (i == LENGTH_OF_SOLN_PATH - 1) {
-					result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = end_state[j][0];
-					result2[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = end_state[j][1];
+					path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i] = end_state[j][0];
+					path_solutions[idx * 2 * num_of_goals * LENGTH_OF_SOLN_PATH + j * 2 * LENGTH_OF_SOLN_PATH + 2 * i + 1] = end_state[j][1];
 				}
 			}
 		}
