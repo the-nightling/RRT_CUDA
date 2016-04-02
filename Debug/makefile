@@ -41,19 +41,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: RRT
+all: RRT_pend_CUDA
 
 # Tool invocations
-RRT: $(OBJS) $(USER_OBJS)
+RRT_pend_CUDA: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: NVCC Linker'
-	/usr/local/cuda-6.5/bin/nvcc --cudart static -Xlinker --unresolved-symbols=ignore-in-object-files --relocatable-device-code=false -gencode arch=compute_30,code=compute_30 -gencode arch=compute_32,code=sm_32 --target-cpu-architecture ARM -m32 -ccbin arm-linux-gnueabihf-g++ -link -o  "RRT" $(OBJS) $(USER_OBJS) $(LIBS)
+	/usr/local/cuda-6.5/bin/nvcc --cudart static -Xlinker --unresolved-symbols=ignore-in-object-files --relocatable-device-code=false -gencode arch=compute_30,code=compute_30 -gencode arch=compute_32,code=sm_32 --target-cpu-architecture ARM -m32 -ccbin arm-linux-gnueabihf-g++ -link -o  "RRT_pend_CUDA" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CU_DEPS)$(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) RRT
+	-$(RM) $(CU_DEPS)$(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) RRT_pend_CUDA
 	-@echo ' '
 
 .PHONY: all clean dependents

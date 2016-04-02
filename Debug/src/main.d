@@ -98,17 +98,7 @@ src/main.o : ../src/main.cu \
     /usr/local/cuda-6.5/bin/../targets/armv7-linux-gnueabihf/include/surface_indirect_functions.h \
     /usr/local/cuda-6.5/bin/../targets/armv7-linux-gnueabihf/include/device_launch_parameters.h \
     /usr/lib/gcc-cross/arm-linux-gnueabihf/4.8/include/stdbool.h \
-    ../src/floyd_warshall_algo.cuh \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/iostream \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ostream \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ios \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/iosfwd \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stringfwd.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/memoryfwd.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/postypes.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/cwchar \
-    /usr/arm-linux-gnueabihf/include/bits/wchar.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/char_traits.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/vector \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_algobase.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/functexcept.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/exception_defines.h \
@@ -120,6 +110,27 @@ src/main.o : ../src/main.cu \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_iterator_base_funcs.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/debug/debug.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_iterator.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/allocator.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/arm-linux-gnueabihf/bits/c++allocator.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ext/new_allocator.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/memoryfwd.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_construct.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ext/alloc_traits.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_uninitialized.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_vector.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_bvector.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/range_access.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/vector.tcc \
+    ../src/floyd_warshall_algo.cuh \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/iostream \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ostream \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ios \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/iosfwd \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stringfwd.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/postypes.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/cwchar \
+    /usr/arm-linux-gnueabihf/include/bits/wchar.h \
+    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/char_traits.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/localefwd.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/arm-linux-gnueabihf/bits/c++locale.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/clocale \
@@ -138,14 +149,10 @@ src/main.o : ../src/main.cu \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/arm-linux-gnueabihf/bits/atomic_word.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/locale_classes.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/string \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/allocator.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/arm-linux-gnueabihf/bits/c++allocator.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ext/new_allocator.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/ostream_insert.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/cxxabi_forced.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_function.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/backward/binders.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/range_access.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/basic_string.h \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/basic_string.tcc \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/locale_classes.tcc \
@@ -166,13 +173,6 @@ src/main.o : ../src/main.cu \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/sstream \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/sstream.tcc \
     /usr/arm-linux-gnueabihf/include/c++/4.8.2/cstdio \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/vector \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_construct.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/ext/alloc_traits.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_uninitialized.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_vector.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/stl_bvector.h \
-    /usr/arm-linux-gnueabihf/include/c++/4.8.2/bits/vector.tcc \
     /usr/local/cuda-6.5/bin/../targets/armv7-linux-gnueabihf/include/cuda.h \
     ../src/RRT.cuh \
     /usr/local/cuda-6.5/bin/../targets/armv7-linux-gnueabihf/include/curand.h \

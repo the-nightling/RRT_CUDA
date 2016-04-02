@@ -29,9 +29,9 @@
 								<option id="nvcc.compiler.pic.295341174" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
 								<option id="nvcc.compiler.machine.778314915" name="Architecture (--machine)" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
 								<option id="nvcc.compiler.include.paths.2068766823" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT}/0_Simple&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT}/common/inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RRT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT_pend_CUDA}/0_Simple&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT_pend_CUDA}/common/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RRT_pend_CUDA}&quot;"/>
 								</option>
 								<inputType id="nvcc.compiler.input.cu.1555471429" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.570751495" superClass="nvcc.compiler.input.cpp"/>
@@ -64,6 +64,7 @@
 					<sass major="3" minor="2"/>
 					<ptx major="3" minor="0"/>
 				</executable>
+				<editor-arch major="3" minor="0"/>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
@@ -93,8 +94,8 @@
 								<option id="nvcc.compiler.option.level.624574657" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level"/>
 								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.1262121405" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
 								<option id="nvcc.compiler.pic.41207388" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
-								<option id="nvcc.compiler.machine.1163306726" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
-								<option id="nvcc.compiler.include.paths.454598111" superClass="nvcc.compiler.include.paths" valueType="includePath">
+								<option id="nvcc.compiler.machine.1163306726" name="Architecture (--machine)" superClass="nvcc.compiler.machine" value="nvcc.compiler.machine64" valueType="enumerated"/>
+								<option id="nvcc.compiler.include.paths.454598111" name="Include paths (-I)" superClass="nvcc.compiler.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT}/0_Simple&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${cuda_samples_dir:/RRT}/common/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RRT}&quot;"/>
@@ -104,9 +105,9 @@
 								<inputType id="nvcc.compiler.input.c.1332055729" superClass="nvcc.compiler.input.c"/>
 							</tool>
 							<tool id="nvcc.linker.base.277560255" name="NVCC Linker" superClass="nvcc.linker.base">
-								<option id="nvcc.linker.option.machine.757897463" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
-								<option id="nvcc.linker.option.paths.953917840" superClass="nvcc.linker.option.paths"/>
-								<option id="nvcc.linker.option.other.1125419330" superClass="nvcc.linker.option.other" valueType="stringList">
+								<option id="nvcc.linker.option.machine.757897463" name="Architecture (--machine)" superClass="nvcc.linker.option.machine" value="nvcc.linker.machine64" valueType="enumerated"/>
+								<option id="nvcc.linker.option.paths.953917840" name="Library search path (-L)" superClass="nvcc.linker.option.paths"/>
+								<option id="nvcc.linker.option.other.1125419330" name="Other options (-Xlinker [option])" superClass="nvcc.linker.option.other" valueType="stringList">
 									<listOptionValue builtIn="false" value="--unresolved-symbols=ignore-in-object-files"/>
 								</option>
 								<inputType id="nvcc.linker.input.571053471" superClass="nvcc.linker.input">
@@ -137,18 +138,26 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="RRT.com.nvidia.cuda.ide.exe.1560689518" name="Executable" projectType="com.nvidia.cuda.ide.exe"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule cpu="ARM" moduleId="nsight.localTarget"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/RRT_pend_CUDA"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/RRT_pend_CUDA"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="com.nvidia.cuda.ide.configuration.debug.566299403;com.nvidia.cuda.ide.configuration.debug.566299403.;nvcc.compiler.base.1962067192;nvcc.compiler.input.cu.1555471429">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.nvidia.cuda.ide.build.NVCCPerProjectProfile"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.nvidia.cuda.ide.configuration.debug.566299403;com.nvidia.cuda.ide.configuration.debug.566299403.;nvcc.compiler.base.1962067192;nvcc.compiler.input.c.1252460918">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.nvidia.cuda.ide.build.NVCCPerProjectProfile"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.nvidia.cuda.ide.configuration.debug.566299403;com.nvidia.cuda.ide.configuration.debug.566299403.;nvcc.compiler.base.1962067192;nvcc.compiler.input.cpp.570751495">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.nvidia.cuda.ide.build.NVCCPerProjectProfile"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.nvidia.cuda.ide.configuration.debug.566299403;com.nvidia.cuda.ide.configuration.debug.566299403.;nvcc.compiler.base.1962067192;nvcc.compiler.input.cu.1555471429">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.nvidia.cuda.ide.build.NVCCPerProjectProfile"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule cpu="ARM" moduleId="nsight.localTarget"/>
 </cproject>

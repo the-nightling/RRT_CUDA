@@ -42,7 +42,7 @@ __global__ void init_adj_matrix_kernel(int * adjacency_matrix){
  * Main kernel; Contains RRT algorithm
  */
 __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
-		double * path_solutions, double * control_solutions) {
+		double * path_solutions, double * control_solutions, double* tmp) {
 
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;		// thread id
 
@@ -50,6 +50,9 @@ __global__ void RRT_kernel(curandState *my_curandstate, int *adjacency_matrix,
 	double start_state[] = { FIRST_X0_X, FIRST_X0_Y }; // initial state; angle position measured from x-axis
 	start_state[0] += (idx % GRID_X) * 2 * DELTA_X;
 	start_state[1] += (idx / GRID_X) * 2 * DELTA_Y;
+
+	//tmp[2*idx] = start_state[0];
+	//tmp[2*idx+1] = start_state[1];
 
 	// TODO: automate goal placement around initial state
 	double end_state[8][2] =

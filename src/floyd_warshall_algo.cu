@@ -28,8 +28,8 @@ void _get_full_paths(const int *D, const int *Dpath, const int N, int *roots){
 
 	//*
 	path.clear();
-	start_vertex = 976;
-	end_vertex = 998;
+	start_vertex = 975;
+	end_vertex = 997;
 
 	if(_getPath(start_vertex, end_vertex,path,D,Dpath,N)){
 		_showPath(start_vertex,end_vertex,path,D,N);
